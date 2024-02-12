@@ -631,7 +631,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 4
   mass: 1
-  bounciness: 0.5
   jumpForce: 2
 --- !u!1 &2033648194
 GameObject:
