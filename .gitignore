@@ -1,0 +1,11 @@
+/Library/*
+.DS_Store
+/.idea/*
+/Logs/*
+/obj/Debug/.NETFramework,Version=v4.7.1.AssemblyAttributes.cs
+/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache
+/Temp/*
+/UserSettings/*
+/Solution.sln
+/ProjectSettings/*
+*.meta
