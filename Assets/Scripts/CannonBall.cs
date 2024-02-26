@@ -11,44 +11,32 @@ public class CannonBall : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.W))
         {
-            Jump();
+            ShootUp();
+            ShootForward();
         }
     }
 
     private void FixedUpdate()
     {
-        if (_isOnGround)
-        {
-            return;
-        }
-        
-        _force += Vector3.down * (mass * gravity);
+        ApplyGravity();
         
         transform.Translate(Time.fixedDeltaTime * _force);
     }
-    
-    private void Jump()
+
+    private void ApplyGravity()
     {
-        if (_isOnGround)
-        {
-            _isOnGround = false;
-        }
-        
-        Debug.Log($"Jumped! Force: {_force}");
-        _force = Vector3.up * (mass * jumpForce);
-        transform.Translate(_force);
+        _force += Vector3.down * (mass * gravity);
+    }
+
+    private void ShootUp()
+    {
+        _force += Vector3.up * (mass * jumpForce);
     }
     
-    private void OnCollisionStay(Collision other)
+    private void ShootForward()
     {
-        if (transform.position.y < 0f)
-        {
-            _isOnGround = true;
-            var position = transform.position;
-            position.y = 0.5f;
-            transform.position = position;
-        }
+        _force += Vector3.forward * (mass * jumpForce);
     }
 }

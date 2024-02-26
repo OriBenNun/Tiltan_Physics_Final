@@ -377,7 +377,7 @@ Transform:
   m_GameObject: {fileID: 957774232}
   serializedVersion: 2
   m_LocalRotation: {x: 0.26538786, y: 0, z: 0, w: 0.9641418}
-  m_LocalPosition: {x: 0, y: 8.88, z: -10}
+  m_LocalPosition: {x: 0, y: 4.07, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -471,7 +471,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.26538786, y: 0, z: 0, w: 0.9641418}
-  m_LocalPosition: {x: 0, y: 8.88, z: -10}
+  m_LocalPosition: {x: 0, y: 4.07, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -611,7 +611,7 @@ Transform:
   m_GameObject: {fileID: 1569070526}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.88, z: 0}
+  m_LocalPosition: {x: 0, y: 1.07, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -629,9 +629,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea791ddafe88b4df9b2c8c5222819f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: 4
+  gravity: 2
   mass: 1
-  jumpForce: 2
+  jumpForce: 50
 --- !u!1 &2033648194
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,7 +647,7 @@ GameObject:
   - component: {fileID: 2033648200}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -763,8 +763,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: -5, z: 0}
+  m_Size: {x: 10, y: 50, z: 10}
+  m_Center: {x: 0, y: -25, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
