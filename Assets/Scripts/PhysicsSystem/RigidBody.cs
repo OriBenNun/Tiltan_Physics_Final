@@ -4,46 +4,37 @@ namespace PhysicsSystem
 {
     public class RigidBody : MonoBehaviour
     {
-        [SerializeField] private bool isAffectedByGravity;
-        [SerializeField] private float mass = 10;
-    
-        private const float _gravity = 9.81f;
+        [SerializeField] private bool useGravity;
+        [SerializeField] private float mass = 1;
+        [SerializeField] private float gravity = 9.81f;
+
+        private const float MaxForceMagnitude = 20f;
         
         private Vector3 _force;
-        private bool _isOnGround;
-
-        // private void Update()
-        // {
-        //     if (Input.GetKeyDown(KeyCode.W))
-        //     {
-        //         ShootUp();
-        //         ShootForward();
-        //     }
-        // }
 
         private void FixedUpdate()
         {
-            if (isAffectedByGravity)
+            if (useGravity)
             {
                 ApplyGravity();
             }
         
             transform.Translate(Time.fixedDeltaTime * _force);
         }
-
+        
         private void ApplyGravity()
         {
-            _force += Vector3.down * (mass * _gravity);
+            AddForce(Vector3.down * (mass * gravity));
         }
-
-        // private void ShootUp()
-        // {
-        //     _force += Vector3.up * (mass * jumpForce);
-        // }
-        //
-        // private void ShootForward()
-        // {
-        //     _force += Vector3.forward * (mass * jumpForce);
-        // }
+        
+        public void AddForce(Vector3 force)
+        {
+            _force = Vector3.ClampMagnitude(_force + force, MaxForceMagnitude);
+        }
+        
+        public void ChangeForce(Vector3 force) 
+        {
+            _force = Vector3.ClampMagnitude(force, MaxForceMagnitude);
+        }
     }
 }
