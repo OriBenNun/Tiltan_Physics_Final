@@ -6,7 +6,8 @@ namespace PhysicsSystem
     {
         [SerializeField] private bool useGravity;
         [SerializeField] private float mass = 1;
-        [SerializeField] private float gravity = 9.81f;
+
+        private const float Gravity = 9.81f;
 
         private const float MaxForceMagnitude = 20f;
         
@@ -24,7 +25,7 @@ namespace PhysicsSystem
         
         private void ApplyGravity()
         {
-            AddForce(Vector3.down * (mass * gravity));
+            AddForce(Vector3.down * (mass * Gravity));
         }
         
         public void AddForce(Vector3 force)
