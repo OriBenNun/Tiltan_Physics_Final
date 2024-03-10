@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4983915462697560284}
   - component: {fileID: 8993490997920837228}
   m_Layer: 0
-  m_Name: Cannon (1)
+  m_Name: Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2432994806945821709}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2044961, y: 0, z: 0, w: 0.97886735}
+  m_LocalRotation: {x: 0.06366141, y: 0, z: 0, w: 0.9979716}
   m_LocalPosition: {x: 0, y: 1.228, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5793140869137715711}
-  m_LocalEulerAnglesHint: {x: -23.6, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7.3, y: 0, z: 0}
 --- !u!33 &8805617295043478865
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38eeca0df2101d14c900a9e799b36153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ball: {fileID: 0}
 --- !u!114 &8819480137939827873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,9 +305,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdbffdb133b4406ea3b7a8609e432774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 10
-  forwardForce: 10
+  moveSpeed: 10
+  rotationSpeed: 15
   rigidBody: {fileID: 2505171509775070760}
+  cannonVisualTransform: {fileID: 1299444461114452429}
+  maxRotationAngle: 25
+  minRotationAngle: -25
+  startingRotationAngle: 10
 --- !u!114 &2505171509775070760
 MonoBehaviour:
   m_ObjectHideFlags: 0
