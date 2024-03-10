@@ -14,17 +14,28 @@ namespace Cannon
         [SerializeField] private float maxRotationAngle = 45;
         [SerializeField] private float minRotationAngle = 15;
         [SerializeField] private float startingRotationAngle = 30;
+        [SerializeField] private float maxHorizontalPosition = 10;
+        [SerializeField] private float minHorizontalPosition = -10;
+        [SerializeField] private float startingHorizontalPosition = 0;
 
         private GameControls _controls;
 
         private Vector3 _eulerRotation;
 
         private RotationDirection _currRotationDirection = RotationDirection.None;
+        private MovementDirection _currMovementDirection = MovementDirection.None;
         
         private enum RotationDirection
         {
             Up,
             Down,
+            None
+        }
+        
+        private enum MovementDirection
+        {
+            Right,
+            Left,
             None
         }
 
@@ -40,6 +51,8 @@ namespace Cannon
             _controls.Enable();
 
             _controls.Player.HorizontalMove.performed += HandleHorizontalMoveInput;
+            _controls.Player.HorizontalMove.canceled += HandleHorizontalMoveCanceled;
+            
             _controls.Player.VerticalRotation.performed += HandleVerticalRotationInput;
             _controls.Player.VerticalRotation.canceled += HandleVerticalRotationCanceled;
         }
@@ -52,31 +65,49 @@ namespace Cannon
 
         private void Update()
         {
-            if (_currRotationDirection == RotationDirection.None)
+            if (_currRotationDirection != RotationDirection.None)
             {
-                return;
+                RotateCannon(_currRotationDirection, rotationSpeed * Time.deltaTime);
             }
             
-            RotateCannon(_currRotationDirection, rotationSpeed * Time.deltaTime);
+            if (_currMovementDirection != MovementDirection.None)
+            {
+                MoveCannon(_currMovementDirection, moveSpeed * Time.deltaTime);
+            }
         }
 
         private void OnDestroy()
         {
             _controls.Player.HorizontalMove.performed -= HandleHorizontalMoveInput;
+            _controls.Player.HorizontalMove.canceled -= HandleHorizontalMoveCanceled;
+            
+            _controls.Player.VerticalRotation.canceled -= HandleVerticalRotationCanceled;
             _controls.Player.VerticalRotation.performed -= HandleVerticalRotationInput;
             
             _controls.Dispose();
         }
-
-        private void HandleVerticalRotationInput(InputAction.CallbackContext obj)
+        
+        private void MoveCannon(MovementDirection moveDirection, float speed)
         {
-            if (obj.ReadValue<float>() < 0)
+            var position = transform.position.x;
+            switch (moveDirection)
             {
-                _currRotationDirection = RotationDirection.Down;
-                return;
+                case MovementDirection.Right:
+                    position = Mathf.Min(maxRotationAngle, position + speed);
+                    break;
+                case MovementDirection.Left:
+                    position = Mathf.Max(minRotationAngle, position - speed);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(moveDirection), moveDirection, null);
             }
 
-            _currRotationDirection = RotationDirection.Up;
+            UpdatePosition(position);
+        }
+
+        private void UpdatePosition(float position)
+        {
+            transform.position = new Vector3(position, transform.position.y, transform.position.z);
         }
 
         private void RotateCannon(RotationDirection rotationDirection, float speed)
@@ -105,12 +136,32 @@ namespace Cannon
 
         private void HandleHorizontalMoveInput(InputAction.CallbackContext obj)
         {
-            
+            if (obj.ReadValue<float>() < 0)
+            {
+                _currMovementDirection = MovementDirection.Left;
+                return;
+            }
+
+            _currMovementDirection = MovementDirection.Right;
         }
-        
+        private void HandleVerticalRotationInput(InputAction.CallbackContext obj)
+        {
+            if (obj.ReadValue<float>() < 0)
+            {
+                _currRotationDirection = RotationDirection.Down;
+                return;
+            }
+
+            _currRotationDirection = RotationDirection.Up;
+        }
         private void HandleVerticalRotationCanceled(InputAction.CallbackContext obj)
         {
             _currRotationDirection = RotationDirection.None;
+        }
+        
+        private void HandleHorizontalMoveCanceled(InputAction.CallbackContext obj)
+        {
+            _currMovementDirection = MovementDirection.None;
         }
     }
 }
