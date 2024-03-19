@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &94633510564390599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801523240101418449}
+  m_Layer: 0
+  m_Name: ShootOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1801523240101418449
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94633510564390599}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.06366141, y: -0, z: -0, w: 0.9979716}
+  m_LocalPosition: {x: 0, y: 0.2605359, z: 0.99495983}
+  m_LocalScale: {x: 0.8, y: 0.80000013, z: 0.80000013}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1299444461114452429}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2432994806945821709
 GameObject:
   m_ObjectHideFlags: 0
@@ -27,13 +58,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2432994806945821709}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.06366141, y: 0, z: 0, w: 0.9979716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.228, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1801523240101418449}
   m_Father: {fileID: 5793140869137715711}
-  m_LocalEulerAnglesHint: {x: 7.3, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8805617295043478865
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -292,7 +324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38eeca0df2101d14c900a9e799b36153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ball: {fileID: 0}
+  shootForce: 300
+  controller: {fileID: 8819480137939827873}
+  loadedProjectile: {fileID: 0}
+  shootOrigin: {fileID: 1801523240101418449}
 --- !u!114 &8819480137939827873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,9 +344,10 @@ MonoBehaviour:
   rotationSpeed: 12.5
   rigidBody: {fileID: 2505171509775070760}
   cannonVisualTransform: {fileID: 1299444461114452429}
+  forwardDirectionCorrection: 0.2
   maxRotationAngle: 25
   minRotationAngle: -25
-  startingRotationAngle: 10
+  startingRotationAngle: 0
   maxHorizontalPosition: 3.5
   minHorizontalPosition: -3.5
   startingHorizontalPosition: 0
@@ -329,3 +365,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useGravity: 0
   mass: 1
+  timeScale: 0.2

@@ -1,18 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
+using PhysicsSystem;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+namespace Game
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Projectile : MonoBehaviour
     {
+        [SerializeField] private RigidBody rb;
         
-    }
+        private void OnValidate()
+        {
+            rb ??= GetComponent<RigidBody>();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Shoot(Vector3 force)
+        {
+            rb.UseGravity();
+            rb.AddForce(force);
+        }
+
+        // TODO temp for debug
+        public void ResetProjectile(Vector3 position)
+        {
+            transform.position = position;
+            rb.UseGravity(false);
+            rb.ChangeForce(Vector3.zero);
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            transform.position = position;
+        }
     }
 }

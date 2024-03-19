@@ -11,12 +11,16 @@ namespace Game.Cannon
         [SerializeField] private float rotationSpeed = 1;
         [SerializeField] private RigidBody rigidBody;
         [SerializeField] private Transform cannonVisualTransform;
+        [SerializeField] private float forwardDirectionCorrection;
         [SerializeField] private float maxRotationAngle = 45;
         [SerializeField] private float minRotationAngle = 15;
         [SerializeField] private float startingRotationAngle = 30;
         [SerializeField] private float maxHorizontalPosition = 10;
         [SerializeField] private float minHorizontalPosition = -10;
         [SerializeField] private float startingHorizontalPosition;
+
+        public event Action OnShootPressed;
+        public event Action OnProjectileResetPressed;
 
         private GameControls _controls;
 
@@ -55,6 +59,10 @@ namespace Game.Cannon
             
             _controls.Player.VerticalRotation.performed += HandleVerticalRotationInput;
             _controls.Player.VerticalRotation.canceled += HandleVerticalRotationCanceled;
+
+            _controls.Player.Shoot.performed += HandleShootInput;
+
+            _controls.Debug.Reset.performed += HandleDebugResetInput;
         }
 
         private void Start()
@@ -86,7 +94,17 @@ namespace Game.Cannon
             
             _controls.Dispose();
         }
-        
+
+        public Vector3 GetCannonForwardDirection()
+        {
+            var forward = cannonVisualTransform.forward;
+            return new Vector3(
+                forward.x,
+                forward.y + forwardDirectionCorrection,
+                forward.z
+                ).normalized;
+        }
+
         private void MoveCannon(MovementDirection moveDirection, float speed)
         {
             var position = transform.position.x;
@@ -120,11 +138,13 @@ namespace Game.Cannon
             var rotation = _eulerRotation.x;
             switch (rotationDirection)
             {
+                // It seems like the sides are flipped here, it's because rotating the cannon piece in the positive direction
+                // make it "look downwards", and the other way around.
                 case RotationDirection.Up:
-                    rotation = Mathf.Min(maxRotationAngle, rotation + speed);
+                    rotation = Mathf.Max(minRotationAngle, rotation - speed);
                     break;
                 case RotationDirection.Down:
-                    rotation = Mathf.Max(minRotationAngle, rotation - speed);
+                    rotation = Mathf.Min(maxRotationAngle, rotation + speed);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(rotationDirection), rotationDirection, null);
@@ -167,6 +187,16 @@ namespace Game.Cannon
         private void HandleHorizontalMoveCanceled(InputAction.CallbackContext obj)
         {
             _currMovementDirection = MovementDirection.None;
+        }
+        
+        private void HandleShootInput(InputAction.CallbackContext obj)
+        {
+            OnShootPressed?.Invoke();
+        }
+        
+        private void HandleDebugResetInput(InputAction.CallbackContext obj)
+        {
+            OnProjectileResetPressed?.Invoke();
         }
     }
 }
