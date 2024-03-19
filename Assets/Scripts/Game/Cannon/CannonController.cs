@@ -92,6 +92,10 @@ namespace Game.Cannon
             _controls.Player.VerticalRotation.canceled -= HandleVerticalRotationCanceled;
             _controls.Player.VerticalRotation.performed -= HandleVerticalRotationInput;
             
+            _controls.Player.Shoot.performed -= HandleShootInput;
+
+            _controls.Debug.Reset.performed -= HandleDebugResetInput;
+            
             _controls.Dispose();
         }
 
