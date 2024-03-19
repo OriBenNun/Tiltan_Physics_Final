@@ -305,13 +305,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdbffdb133b4406ea3b7a8609e432774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  rotationSpeed: 15
+  moveSpeed: 3.5
+  rotationSpeed: 12.5
   rigidBody: {fileID: 2505171509775070760}
   cannonVisualTransform: {fileID: 1299444461114452429}
   maxRotationAngle: 25
   minRotationAngle: -25
   startingRotationAngle: 10
+  maxHorizontalPosition: 3.5
+  minHorizontalPosition: -3.5
+  startingHorizontalPosition: 0
 --- !u!114 &2505171509775070760
 MonoBehaviour:
   m_ObjectHideFlags: 0

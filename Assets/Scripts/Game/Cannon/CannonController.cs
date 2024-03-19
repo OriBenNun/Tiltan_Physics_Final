@@ -3,7 +3,7 @@ using PhysicsSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Cannon
+namespace Game.Cannon
 {
     public class CannonController : MonoBehaviour
     {
@@ -16,7 +16,7 @@ namespace Cannon
         [SerializeField] private float startingRotationAngle = 30;
         [SerializeField] private float maxHorizontalPosition = 10;
         [SerializeField] private float minHorizontalPosition = -10;
-        [SerializeField] private float startingHorizontalPosition = 0;
+        [SerializeField] private float startingHorizontalPosition;
 
         private GameControls _controls;
 
@@ -59,8 +59,8 @@ namespace Cannon
 
         private void Start()
         {
-            // _currentRotation = cannonVisualTransform.rotation;
             UpdateRotation(startingRotationAngle);
+            UpdatePosition(startingHorizontalPosition);
         }
 
         private void Update()
@@ -93,10 +93,10 @@ namespace Cannon
             switch (moveDirection)
             {
                 case MovementDirection.Right:
-                    position = Mathf.Min(maxRotationAngle, position + speed);
+                    position = Mathf.Min(maxHorizontalPosition, position + speed);
                     break;
                 case MovementDirection.Left:
-                    position = Mathf.Max(minRotationAngle, position - speed);
+                    position = Mathf.Max(minHorizontalPosition, position - speed);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(moveDirection), moveDirection, null);
@@ -107,7 +107,12 @@ namespace Cannon
 
         private void UpdatePosition(float position)
         {
-            transform.position = new Vector3(position, transform.position.y, transform.position.z);
+            var myTrans = transform;
+            var pos = myTrans.position;
+            
+            pos = new Vector3(position, pos.y, pos.z);
+            
+            myTrans.position = pos;
         }
 
         private void RotateCannon(RotationDirection rotationDirection, float speed)
