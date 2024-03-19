@@ -19,7 +19,7 @@ namespace Game.Cannon
         [SerializeField] private float minHorizontalPosition = -10;
         [SerializeField] private float startingHorizontalPosition;
 
-        public event Action OnShootPressed;
+        public event Action<float> OnShootPressed;
         public event Action OnProjectileResetPressed;
 
         private GameControls _controls;
@@ -195,7 +195,8 @@ namespace Game.Cannon
         
         private void HandleShootInput(InputAction.CallbackContext obj)
         {
-            OnShootPressed?.Invoke();
+            // TODO change to spring charge
+            OnShootPressed?.Invoke(300);
         }
         
         private void HandleDebugResetInput(InputAction.CallbackContext obj)

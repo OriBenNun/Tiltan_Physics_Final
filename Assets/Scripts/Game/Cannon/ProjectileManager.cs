@@ -4,7 +4,6 @@ namespace Game.Cannon
 {
     public class ProjectileManager : MonoBehaviour
     {
-        [SerializeField] private float shootForce = 0.1f;
         [SerializeField] private CannonController controller;
         [SerializeField] private Projectile loadedProjectile;
         [SerializeField] private Transform shootOrigin;
@@ -42,7 +41,7 @@ namespace Game.Cannon
             loadedProjectile.SetPosition(shootOrigin.position);
         }
 
-        private void HandleOnShootPressed()
+        private void HandleOnShootPressed(float shootForce)
         {
             _isLoaded = false;
             
