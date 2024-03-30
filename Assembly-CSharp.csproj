@@ -47,10 +47,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\PhysicsSystem\Spring.cs" />
     <Compile Include="Assets\Scripts\Game\Cannon\CannonController.cs" />
+    <Compile Include="Assets\Scripts\PhysicsSystem\SpringConfigSo.cs" />
     <Compile Include="Assets\Scripts\PhysicsSystem\RigidBody.cs" />
     <Compile Include="Assets\Input\GameControls.cs" />
     <Compile Include="Assets\Scripts\Game\Cannon\ProjectileManager.cs" />
     <Compile Include="Assets\Scripts\Game\Projectile.cs" />
+    <Compile Include="Assets\Scripts\PhysicsSystem\PhysicsManager.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.16f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

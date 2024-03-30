@@ -658,6 +658,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670291869d5f7884ca70f93731c1dc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &964729230 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6084303134686157346, guid: af299e0ca8a644c49b3b180d111bd093,
+    type: 3}
+  m_PrefabInstance: {fileID: 3682046536159236460}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &964729234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 964729230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ec0fd0c8a84b3b992eddc1df6d9304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &965296299
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,10 +928,30 @@ PrefabInstance:
       propertyPath: loadedProjectile
       value: 
       objectReference: {fileID: 939921323}
+    - target: {fileID: 8819480137939827873, guid: af299e0ca8a644c49b3b180d111bd093,
+        type: 3}
+      propertyPath: spring
+      value: 
+      objectReference: {fileID: 964729234}
+    - target: {fileID: 8819480137939827873, guid: af299e0ca8a644c49b3b180d111bd093,
+        type: 3}
+      propertyPath: springConfigSo
+      value: 
+      objectReference: {fileID: 11400000, guid: be1a749414683ea44986991facedabd5,
+        type: 2}
+    - target: {fileID: 8819480137939827873, guid: af299e0ca8a644c49b3b180d111bd093,
+        type: 3}
+      propertyPath: springAddTensionSpeed
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6084303134686157346, guid: af299e0ca8a644c49b3b180d111bd093,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 964729234}
   m_SourcePrefab: {fileID: 100100000, guid: af299e0ca8a644c49b3b180d111bd093, type: 3}
 --- !u!1001 &7811380863326277191
 PrefabInstance:
@@ -927,6 +965,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CannonBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8571239802979315687, guid: a544d4a61f1af7c4ebe9e391015596bb,
+        type: 3}
+      propertyPath: timeScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8946256741883981358, guid: a544d4a61f1af7c4ebe9e391015596bb,
         type: 3}

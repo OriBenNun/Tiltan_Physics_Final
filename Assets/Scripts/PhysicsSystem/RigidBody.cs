@@ -6,11 +6,8 @@ namespace PhysicsSystem
     {
         [SerializeField] private bool useGravity;
         [SerializeField] private float mass = 1;
-        [SerializeField] private float timeScale = 0.2f;
 
         private const float Gravity = 9.81f;
-
-        private const float MaxForceMagnitude = 20f;
         
         private Vector3 _force;
 
@@ -21,12 +18,12 @@ namespace PhysicsSystem
                 ApplyGravity();
             }
         
-            transform.Translate(Time.fixedDeltaTime * timeScale * _force);
+            transform.Translate(Time.fixedDeltaTime * PhysicsManager.TimeScale * _force);
         }
         
         private void ApplyGravity()
         {
-            AddForce(Vector3.down * (mass * Gravity));
+            AddForce(Vector3.down * (mass * Gravity), true);
         }
 
         public void UseGravity(bool b = true) => useGravity = b;
@@ -35,7 +32,9 @@ namespace PhysicsSystem
         {
             if (clamped)
             {
-                _force = Vector3.ClampMagnitude(_force + force, MaxForceMagnitude);
+                Debug.Log($"Clamped! {_force + force}");
+                _force = Vector3.ClampMagnitude(_force + force, PhysicsManager.MaxForceMagnitude);
+                return;
             }
 
             _force += force;
@@ -45,7 +44,8 @@ namespace PhysicsSystem
         {
             if (clamped)
             {
-                _force = Vector3.ClampMagnitude(force, MaxForceMagnitude);
+                _force = Vector3.ClampMagnitude(force, PhysicsManager.MaxForceMagnitude);
+                return;
             }
 
             _force = force;

@@ -53,6 +53,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AddTension"",
+                    ""type"": ""Value"",
+                    ""id"": ""d30a8598-56e7-468c-b412-c352e50fabf8"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -341,6 +350,39 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""e30db2d9-5581-424d-bcf3-270e4cbf14e5"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AddTension"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""9d441c47-e0c2-4203-84ba-6e3d76cd47b3"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AddTension"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""fa7f7453-1ce2-4590-be6e-89f14135c937"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AddTension"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -380,6 +422,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Player_HorizontalMove = m_Player.FindAction("HorizontalMove", throwIfNotFound: true);
         m_Player_VerticalRotation = m_Player.FindAction("VerticalRotation", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_AddTension = m_Player.FindAction("AddTension", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Reset = m_Debug.FindAction("Reset", throwIfNotFound: true);
@@ -447,6 +490,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_HorizontalMove;
     private readonly InputAction m_Player_VerticalRotation;
     private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_AddTension;
     public struct PlayerActions
     {
         private @GameControls m_Wrapper;
@@ -454,6 +498,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         public InputAction @HorizontalMove => m_Wrapper.m_Player_HorizontalMove;
         public InputAction @VerticalRotation => m_Wrapper.m_Player_VerticalRotation;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @AddTension => m_Wrapper.m_Player_AddTension;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -472,6 +517,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @AddTension.started += instance.OnAddTension;
+            @AddTension.performed += instance.OnAddTension;
+            @AddTension.canceled += instance.OnAddTension;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -485,6 +533,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @AddTension.started -= instance.OnAddTension;
+            @AddTension.performed -= instance.OnAddTension;
+            @AddTension.canceled -= instance.OnAddTension;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -553,6 +604,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         void OnHorizontalMove(InputAction.CallbackContext context);
         void OnVerticalRotation(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
+        void OnAddTension(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {
