@@ -6,10 +6,16 @@ namespace Game
     public class Projectile : MonoBehaviour
     {
         [SerializeField] private RigidBody rb;
+        [SerializeField] private float mass = 10f;
         
         private void OnValidate()
         {
             rb ??= GetComponent<RigidBody>();
+        }
+
+        private void Awake()
+        {
+            rb.SetMass(mass);
         }
 
         public void Shoot(Vector3 force)
@@ -23,7 +29,7 @@ namespace Game
         {
             transform.position = position;
             rb.UseGravity(false);
-            rb.ChangeForce(Vector3.zero);
+            rb.ResetVelocity();
         }
 
         public void SetPosition(Vector3 position)

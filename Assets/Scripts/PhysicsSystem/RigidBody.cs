@@ -4,15 +4,19 @@ namespace PhysicsSystem
 {
     public class RigidBody : MonoBehaviour
     {
+        [SerializeField] private PhysicsManager physicsManager;
         [SerializeField] private bool useGravity;
         [SerializeField] private float mass = 1;
-        [SerializeField] private float timeScale = 0.2f;
 
         private const float Gravity = 9.81f;
-
-        private const float MaxForceMagnitude = 20f;
         
-        private Vector3 _force;
+        // private Vector3 _force;
+        private Vector3 _velocity;
+
+        private void OnValidate()
+        {
+            physicsManager ??= FindObjectOfType<PhysicsManager>();
+        }
 
         private void FixedUpdate()
         {
@@ -20,35 +24,22 @@ namespace PhysicsSystem
             {
                 ApplyGravity();
             }
-        
-            transform.Translate(Time.fixedDeltaTime * timeScale * _force);
+
+            transform.Translate(_velocity * physicsManager.GetFixedDeltaTimeScale());
         }
         
-        private void ApplyGravity()
+        public void AddForce(Vector3 forceToAdd)
         {
-            AddForce(Vector3.down * (mass * Gravity));
+            var acceleration = forceToAdd / mass;
+            _velocity += acceleration;
         }
 
         public void UseGravity(bool b = true) => useGravity = b;
         
-        public void AddForce(Vector3 force, bool clamped = false)
-        {
-            if (clamped)
-            {
-                _force = Vector3.ClampMagnitude(_force + force, MaxForceMagnitude);
-            }
+        public void ResetVelocity() => _velocity = Vector3.zero;
 
-            _force += force;
-        }
-        
-        public void ChangeForce(Vector3 force, bool clamped = false) 
-        {
-            if (clamped)
-            {
-                _force = Vector3.ClampMagnitude(force, MaxForceMagnitude);
-            }
+        public void SetMass(float newMass) => mass = newMass;
 
-            _force = force;
-        }
+        private void ApplyGravity() => AddForce(Vector3.down * (Gravity * mass));
     }
 }

@@ -7,20 +7,32 @@ namespace Game.Cannon
 {
     public class CannonController : MonoBehaviour
     {
+        [Header("Core Configuration")]
+        [SerializeField] private Transform cannonVisualTransform;
+        [SerializeField] private RigidBody rigidBody;
+        
+        [Header("Cannon Locomotion")]
         [SerializeField] private float moveSpeed = 10;
         [SerializeField] private float rotationSpeed = 1;
-        [SerializeField] private RigidBody rigidBody;
-        [SerializeField] private Transform cannonVisualTransform;
         [SerializeField] private float forwardDirectionCorrection;
+        [SerializeField] private float startingRotationAngle = 30;
+        [SerializeField] private float startingHorizontalPosition;
+        
+        [Header("Constraints")]
         [SerializeField] private float maxRotationAngle = 45;
         [SerializeField] private float minRotationAngle = 15;
-        [SerializeField] private float startingRotationAngle = 30;
         [SerializeField] private float maxHorizontalPosition = 10;
         [SerializeField] private float minHorizontalPosition = -10;
-        [SerializeField] private float startingHorizontalPosition;
+
+        [Header("Spring")]
+        [SerializeField] private float springAddTensionSpeed = 1;
+        [SerializeField] private SpringConfigSo springConfigSo;
+        [SerializeField] private Spring spring;
 
         public event Action<float> OnShootPressed;
         public event Action OnProjectileResetPressed;
+
+        public static event Action<SpringAction, float> OnSpringChanged;  
 
         private GameControls _controls;
 
@@ -28,24 +40,12 @@ namespace Game.Cannon
 
         private RotationDirection _currRotationDirection = RotationDirection.None;
         private MovementDirection _currMovementDirection = MovementDirection.None;
-        
-        private enum RotationDirection
-        {
-            Up,
-            Down,
-            None
-        }
-        
-        private enum MovementDirection
-        {
-            Right,
-            Left,
-            None
-        }
+        private SpringAction _currSpringAction = SpringAction.None;
 
         private void OnValidate()
         {
             rigidBody ??= GetComponent<RigidBody>();
+            spring ??= GetComponent<Spring>();
         }
 
         private void Awake()
@@ -60,6 +60,9 @@ namespace Game.Cannon
             _controls.Player.VerticalRotation.performed += HandleVerticalRotationInput;
             _controls.Player.VerticalRotation.canceled += HandleVerticalRotationCanceled;
 
+            _controls.Player.AddTension.performed += HandleAddTensionInput;
+            _controls.Player.AddTension.canceled += HandleAddTensionCanceled;
+
             _controls.Player.Shoot.performed += HandleShootInput;
 
             _controls.Debug.Reset.performed += HandleDebugResetInput;
@@ -69,6 +72,8 @@ namespace Game.Cannon
         {
             UpdateRotation(startingRotationAngle);
             UpdatePosition(startingHorizontalPosition);
+            
+            spring.InitSpring(springConfigSo);
         }
 
         private void Update()
@@ -82,6 +87,11 @@ namespace Game.Cannon
             {
                 MoveCannon(_currMovementDirection, moveSpeed * Time.deltaTime);
             }
+            
+            if (_currSpringAction != SpringAction.None)
+            {
+                AddTensionToSpring(_currSpringAction, springAddTensionSpeed * Time.deltaTime);
+            }
         }
 
         private void OnDestroy()
@@ -92,11 +102,35 @@ namespace Game.Cannon
             _controls.Player.VerticalRotation.canceled -= HandleVerticalRotationCanceled;
             _controls.Player.VerticalRotation.performed -= HandleVerticalRotationInput;
             
+            _controls.Player.AddTension.performed -= HandleAddTensionInput;
+            _controls.Player.AddTension.canceled -= HandleAddTensionCanceled;
+            
             _controls.Player.Shoot.performed -= HandleShootInput;
 
             _controls.Debug.Reset.performed -= HandleDebugResetInput;
             
             _controls.Dispose();
+        }
+        
+        private void AddTensionToSpring(SpringAction currSpringAction, float speed)
+        {
+            var displacementToAdd = 0f;
+            switch (currSpringAction)
+            {
+                case SpringAction.AddTension:
+                    displacementToAdd += speed;
+                    break;
+                case SpringAction.SubtractTension:
+                    displacementToAdd -= speed;
+                    break;
+                case SpringAction.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
+            spring.AddDisplacement(displacementToAdd);
+            OnSpringChanged?.Invoke(currSpringAction, spring.GetCurrentTensionNormalized());
         }
 
         public Vector3 GetCannonForwardDirection()
@@ -165,24 +199,17 @@ namespace Game.Cannon
 
         private void HandleHorizontalMoveInput(InputAction.CallbackContext obj)
         {
-            if (obj.ReadValue<float>() < 0)
-            {
-                _currMovementDirection = MovementDirection.Left;
-                return;
-            }
-
-            _currMovementDirection = MovementDirection.Right;
+            _currMovementDirection = obj.ReadValue<float>() < 0 ? MovementDirection.Left : MovementDirection.Right;
         }
         private void HandleVerticalRotationInput(InputAction.CallbackContext obj)
         {
-            if (obj.ReadValue<float>() < 0)
-            {
-                _currRotationDirection = RotationDirection.Down;
-                return;
-            }
-
-            _currRotationDirection = RotationDirection.Up;
+            _currRotationDirection = obj.ReadValue<float>() < 0 ? RotationDirection.Down : RotationDirection.Up;
         }
+        private void HandleAddTensionInput(InputAction.CallbackContext obj)
+        {
+            ChangeCurrentSpringAction(obj.ReadValue<float>() < 0 ? SpringAction.SubtractTension : SpringAction.AddTension);
+        }
+        
         private void HandleVerticalRotationCanceled(InputAction.CallbackContext obj)
         {
             _currRotationDirection = RotationDirection.None;
@@ -192,16 +219,47 @@ namespace Game.Cannon
         {
             _currMovementDirection = MovementDirection.None;
         }
+        private void HandleAddTensionCanceled(InputAction.CallbackContext obj)
+        {
+            ChangeCurrentSpringAction(SpringAction.None);
+        }
         
         private void HandleShootInput(InputAction.CallbackContext obj)
         {
-            // TODO change to spring charge
-            OnShootPressed?.Invoke(300);
+            OnShootPressed?.Invoke(spring.GetForceAndReleaseTension());
+            OnSpringChanged?.Invoke(_currSpringAction, spring.GetCurrentTensionNormalized());
         }
         
         private void HandleDebugResetInput(InputAction.CallbackContext obj)
         {
             OnProjectileResetPressed?.Invoke();
         }
+
+        private void ChangeCurrentSpringAction(SpringAction action)
+        {
+            _currSpringAction = action;
+            OnSpringChanged?.Invoke(action, spring.GetCurrentTensionNormalized());
+        }
+        
+        private enum RotationDirection
+        {
+            Up,
+            Down,
+            None
+        }
+        
+        private enum MovementDirection
+        {
+            Right,
+            Left,
+            None
+        }
+    }
+    
+    public enum SpringAction
+    {
+        AddTension,
+        SubtractTension,
+        None
     }
 }
