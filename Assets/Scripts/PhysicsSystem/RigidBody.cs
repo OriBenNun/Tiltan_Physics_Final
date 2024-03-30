@@ -4,12 +4,19 @@ namespace PhysicsSystem
 {
     public class RigidBody : MonoBehaviour
     {
+        [SerializeField] private PhysicsManager physicsManager;
         [SerializeField] private bool useGravity;
         [SerializeField] private float mass = 1;
 
         private const float Gravity = 9.81f;
         
-        private Vector3 _force;
+        // private Vector3 _force;
+        private Vector3 _velocity;
+
+        private void OnValidate()
+        {
+            physicsManager ??= FindObjectOfType<PhysicsManager>();
+        }
 
         private void FixedUpdate()
         {
@@ -17,29 +24,26 @@ namespace PhysicsSystem
             {
                 ApplyGravity();
             }
-
-            var dirToMove = _force.normalized;
-            var amountToMove = Time.fixedDeltaTime * PhysicsManager.TimeScale * _force.magnitude;
-
-            var finalMove = amountToMove * dirToMove;
-            transform.Translate(finalMove);
+            
+            transform.Translate(Time.fixedDeltaTime * _velocity);
         }
         
         private void ApplyGravity()
         {
-            AddForce(Vector3.down * (mass * Gravity));
+            AddForce(Vector3.down * (Gravity * mass));
         }
 
         public void UseGravity(bool b = true) => useGravity = b;
         
-        public void AddForce(Vector3 force, bool clamped = false)
+        public void AddForce(Vector3 force)
         {
-            _force += force;
+            var acceleration = physicsManager.GetTimeScale() * (force / mass);
+            _velocity += acceleration;
         }
         
-        public void ChangeForce(Vector3 force, bool clamped = false) 
+        public void StopAllForces() 
         {
-            _force = force;
+            _velocity = Vector3.zero;
         }
     }
 }

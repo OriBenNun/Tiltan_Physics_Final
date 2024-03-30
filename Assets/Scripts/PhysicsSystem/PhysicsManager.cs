@@ -1,8 +1,11 @@
-﻿namespace PhysicsSystem
+﻿using UnityEngine;
+
+namespace PhysicsSystem
 {
-    public static class PhysicsManager
+    public class PhysicsManager : MonoBehaviour
     {
-        public static float TimeScale => 1f;
-        // public static float MaxForceMagnitude => 1_200f;
+        [SerializeField] private float timeScale = 1f;
+
+        public float GetTimeScale() => timeScale;
     }
 }

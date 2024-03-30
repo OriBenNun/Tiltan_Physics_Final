@@ -765,6 +765,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1199294151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1199294153}
+  - component: {fileID: 1199294152}
+  m_Layer: 0
+  m_Name: PhysicsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1199294152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199294151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 447563901b0a44f78fef461cfa8c6699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeScale: 1
+--- !u!4 &1199294153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199294151}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1866414788
 GameObject:
   m_ObjectHideFlags: 3
@@ -868,6 +913,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2505171509775070760, guid: af299e0ca8a644c49b3b180d111bd093,
+        type: 3}
+      propertyPath: physicsManager
+      value: 
+      objectReference: {fileID: 1199294152}
     - target: {fileID: 6084303134686157346, guid: af299e0ca8a644c49b3b180d111bd093,
         type: 3}
       propertyPath: m_Name
@@ -971,6 +1021,11 @@ PrefabInstance:
       propertyPath: timeScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8571239802979315687, guid: a544d4a61f1af7c4ebe9e391015596bb,
+        type: 3}
+      propertyPath: physicsManager
+      value: 
+      objectReference: {fileID: 1199294152}
     - target: {fileID: 8946256741883981358, guid: a544d4a61f1af7c4ebe9e391015596bb,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1058,3 +1113,4 @@ SceneRoots:
   - {fileID: 3682046536159236460}
   - {fileID: 736869401}
   - {fileID: 965296302}
+  - {fileID: 1199294153}

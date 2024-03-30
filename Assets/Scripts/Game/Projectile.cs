@@ -23,7 +23,7 @@ namespace Game
         {
             transform.position = position;
             rb.UseGravity(false);
-            rb.ChangeForce(Vector3.zero);
+            rb.StopAllForces();
         }
 
         public void SetPosition(Vector3 position)
