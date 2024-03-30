@@ -1016,6 +1016,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CannonBall
       objectReference: {fileID: 0}
+    - target: {fileID: 3719555169575794922, guid: a544d4a61f1af7c4ebe9e391015596bb,
+        type: 3}
+      propertyPath: mass
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8571239802979315687, guid: a544d4a61f1af7c4ebe9e391015596bb,
         type: 3}
       propertyPath: timeScale

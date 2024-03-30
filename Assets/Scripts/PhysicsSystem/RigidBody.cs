@@ -24,26 +24,22 @@ namespace PhysicsSystem
             {
                 ApplyGravity();
             }
-            
-            transform.Translate(Time.fixedDeltaTime * _velocity);
+
+            transform.Translate(_velocity);
         }
         
-        private void ApplyGravity()
+        public void AddForce(Vector3 forceToAdd)
         {
-            AddForce(Vector3.down * (Gravity * mass));
+            var acceleration = forceToAdd / mass * physicsManager.GetFixedDeltaTimeScale();
+            _velocity += acceleration;
         }
 
         public void UseGravity(bool b = true) => useGravity = b;
         
-        public void AddForce(Vector3 force)
-        {
-            var acceleration = physicsManager.GetTimeScale() * (force / mass);
-            _velocity += acceleration;
-        }
-        
-        public void StopAllForces() 
-        {
-            _velocity = Vector3.zero;
-        }
+        public void ResetVelocity() => _velocity = Vector3.zero;
+
+        public void SetMass(float newMass) => mass = newMass;
+
+        private void ApplyGravity() => AddForce(Vector3.down * (Gravity * mass));
     }
 }
