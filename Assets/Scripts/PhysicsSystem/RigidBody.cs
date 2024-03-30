@@ -25,12 +25,12 @@ namespace PhysicsSystem
                 ApplyGravity();
             }
 
-            transform.Translate(_velocity);
+            transform.Translate(_velocity * physicsManager.GetFixedDeltaTimeScale());
         }
         
         public void AddForce(Vector3 forceToAdd)
         {
-            var acceleration = forceToAdd / mass * physicsManager.GetFixedDeltaTimeScale();
+            var acceleration = forceToAdd / mass;
             _velocity += acceleration;
         }
 
