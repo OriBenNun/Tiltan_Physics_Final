@@ -32,6 +32,8 @@ namespace Game.Cannon
         public event Action<float> OnShootPressed;
         public event Action OnProjectileResetPressed;
 
+        public static event Action<SpringAction, float> OnSpringChanged;  
+
         private GameControls _controls;
 
         private Vector3 _eulerRotation;
@@ -128,6 +130,7 @@ namespace Game.Cannon
             }
             
             spring.AddDisplacement(displacementToAdd);
+            OnSpringChanged?.Invoke(currSpringAction, spring.GetCurrentTensionNormalized());
         }
 
         public Vector3 GetCannonForwardDirection()
@@ -196,33 +199,15 @@ namespace Game.Cannon
 
         private void HandleHorizontalMoveInput(InputAction.CallbackContext obj)
         {
-            if (obj.ReadValue<float>() < 0)
-            {
-                _currMovementDirection = MovementDirection.Left;
-                return;
-            }
-
-            _currMovementDirection = MovementDirection.Right;
+            _currMovementDirection = obj.ReadValue<float>() < 0 ? MovementDirection.Left : MovementDirection.Right;
         }
         private void HandleVerticalRotationInput(InputAction.CallbackContext obj)
         {
-            if (obj.ReadValue<float>() < 0)
-            {
-                _currRotationDirection = RotationDirection.Down;
-                return;
-            }
-
-            _currRotationDirection = RotationDirection.Up;
+            _currRotationDirection = obj.ReadValue<float>() < 0 ? RotationDirection.Down : RotationDirection.Up;
         }
         private void HandleAddTensionInput(InputAction.CallbackContext obj)
         {
-            if (obj.ReadValue<float>() < 0)
-            {
-                _currSpringAction = SpringAction.SubtractTension;
-                return;
-            }
-
-            _currSpringAction = SpringAction.AddTension;
+            ChangeCurrentSpringAction(obj.ReadValue<float>() < 0 ? SpringAction.SubtractTension : SpringAction.AddTension);
         }
         
         private void HandleVerticalRotationCanceled(InputAction.CallbackContext obj)
@@ -236,17 +221,24 @@ namespace Game.Cannon
         }
         private void HandleAddTensionCanceled(InputAction.CallbackContext obj)
         {
-            _currSpringAction = SpringAction.None;
+            ChangeCurrentSpringAction(SpringAction.None);
         }
         
         private void HandleShootInput(InputAction.CallbackContext obj)
         {
             OnShootPressed?.Invoke(spring.GetForceAndReleaseTension());
+            OnSpringChanged?.Invoke(_currSpringAction, spring.GetCurrentTensionNormalized());
         }
         
         private void HandleDebugResetInput(InputAction.CallbackContext obj)
         {
             OnProjectileResetPressed?.Invoke();
+        }
+
+        private void ChangeCurrentSpringAction(SpringAction action)
+        {
+            _currSpringAction = action;
+            OnSpringChanged?.Invoke(action, spring.GetCurrentTensionNormalized());
         }
         
         private enum RotationDirection
@@ -262,12 +254,12 @@ namespace Game.Cannon
             Left,
             None
         }
-
-        private enum SpringAction
-        {
-            AddTension,
-            SubtractTension,
-            None
-        }
+    }
+    
+    public enum SpringAction
+    {
+        AddTension,
+        SubtractTension,
+        None
     }
 }

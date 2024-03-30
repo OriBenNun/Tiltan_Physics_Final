@@ -4,51 +4,41 @@ namespace PhysicsSystem
 {
     public class Spring : MonoBehaviour
     {
-        private SpringConfigSo springConfigSo;
-        private float kFactor;
-        private float maximumX;
-        private float minimumX;
+        private SpringConfigSo _springConfigSo;
+        private float _kFactor;
+        private float _maximumX;
+        private float _minimumX;
         
-        private float currentX;
-
-        // Here's how you can apply Hooke's Law to your cannon charging mechanic:
-        // Initialize Spring Parameters: Set up parameters such as the spring constant (k),
-        // the maximum displacement (x max), and the minimum and maximum shoot forces.
-        // Calculate Displacement: Track how long the shoot button is held down and use this information
-        // to calculate the displacement of the "spring" (charging mechanic).
-        // You can use a formula like x=k⋅t, where t is the time the shoot button is held down.
-        // Calculate Force: Apply Hooke's Law to calculate the force to be applied to the projectile using
-        // the displacement calculated in the previous step. Shoot Projectile: Use the calculated force to shoot
-        // the projectile.
-        
+        private float _currentX;
 
         public void InitSpring(SpringConfigSo configSo)
         {
-            springConfigSo = configSo;
-            kFactor = configSo.theKFactor;
-            maximumX = configSo.maximumDisplacement;
-            minimumX = configSo.minimumDisplacement;
+            _springConfigSo = configSo;
+            _kFactor = configSo.theKFactor;
+            _maximumX = configSo.maximumDisplacement;
+            _minimumX = configSo.minimumDisplacement;
 
-            currentX = minimumX;
+            _currentX = _minimumX;
         }
 
         public bool AddDisplacement(float amountToAdd)
         {
-            if (currentX + amountToAdd > maximumX || currentX + amountToAdd < minimumX)
+            if (_currentX + amountToAdd > _maximumX || _currentX + amountToAdd < _minimumX)
             {
                 return false;
             }
 
-            currentX += amountToAdd;
-            Debug.Log($"Spring: {springConfigSo.springName} Current X: {currentX}");
+            _currentX += amountToAdd;
             return true;
         }
         
         public float GetForceAndReleaseTension()
         {
-            var force = kFactor * currentX;
-            currentX = minimumX;
+            var force = _kFactor * _currentX;
+            _currentX = _minimumX;
             return force;
         }
+
+        public float GetCurrentTensionNormalized() => (_currentX - _minimumX) / (_maximumX - _minimumX);
     }
 }
