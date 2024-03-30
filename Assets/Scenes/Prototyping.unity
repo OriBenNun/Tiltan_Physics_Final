@@ -942,7 +942,7 @@ PrefabInstance:
     - target: {fileID: 8819480137939827873, guid: af299e0ca8a644c49b3b180d111bd093,
         type: 3}
       propertyPath: springAddTensionSpeed
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

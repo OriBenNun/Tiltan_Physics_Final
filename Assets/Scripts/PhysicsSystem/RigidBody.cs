@@ -17,37 +17,28 @@ namespace PhysicsSystem
             {
                 ApplyGravity();
             }
-        
-            transform.Translate(Time.fixedDeltaTime * PhysicsManager.TimeScale * _force);
+
+            var dirToMove = _force.normalized;
+            var amountToMove = Time.fixedDeltaTime * PhysicsManager.TimeScale * _force.magnitude;
+
+            var finalMove = amountToMove * dirToMove;
+            transform.Translate(finalMove);
         }
         
         private void ApplyGravity()
         {
-            AddForce(Vector3.down * (mass * Gravity), true);
+            AddForce(Vector3.down * (mass * Gravity));
         }
 
         public void UseGravity(bool b = true) => useGravity = b;
         
         public void AddForce(Vector3 force, bool clamped = false)
         {
-            if (clamped)
-            {
-                Debug.Log($"Clamped! {_force + force}");
-                _force = Vector3.ClampMagnitude(_force + force, PhysicsManager.MaxForceMagnitude);
-                return;
-            }
-
             _force += force;
         }
         
         public void ChangeForce(Vector3 force, bool clamped = false) 
         {
-            if (clamped)
-            {
-                _force = Vector3.ClampMagnitude(force, PhysicsManager.MaxForceMagnitude);
-                return;
-            }
-
             _force = force;
         }
     }
