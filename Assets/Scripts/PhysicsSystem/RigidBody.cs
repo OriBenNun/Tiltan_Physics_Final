@@ -28,18 +28,18 @@ namespace PhysicsSystem
             transform.Translate(_velocity * physicsManager.GetFixedDeltaTimeScale());
         }
         
-        public void AddForce(Vector3 forceToAdd)
+        public void SetPosition(Vector3 position) => transform.position = position;
+
+        private void ApplyGravity() => AddForce(Vector3.down * (Gravity * mass));
+
+        protected void AddForce(Vector3 forceToAdd)
         {
             var acceleration = forceToAdd / mass;
             _velocity += acceleration;
         }
 
-        public void UseGravity(bool b = true) => useGravity = b;
-        
-        public void ResetVelocity() => _velocity = Vector3.zero;
+        protected void UseGravity(bool b = true) => useGravity = b;
 
-        public void SetMass(float newMass) => mass = newMass;
-
-        private void ApplyGravity() => AddForce(Vector3.down * (Gravity * mass));
+        protected void ResetVelocity() => _velocity = Vector3.zero;
     }
 }
