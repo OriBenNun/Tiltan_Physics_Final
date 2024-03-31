@@ -1,3 +1,4 @@
+using System;
 using PhysicsSystem;
 using UnityEngine;
 
@@ -5,8 +6,14 @@ namespace Game
 {
     public class Projectile : RigidBody
     {
-        // [SerializeField] private RigidBody rb;
+
+        public event Action<Collider> OnProjectileCollided;
         
+        private void OnTriggerEnter(Collider other)
+        {
+            OnProjectileCollided?.Invoke(other);
+        }
+
         public void Shoot(Vector3 force)
         {
             UseGravity();

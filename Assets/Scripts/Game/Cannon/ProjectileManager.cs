@@ -8,6 +8,8 @@ namespace Game.Cannon
         [SerializeField] private Projectile loadedProjectile;
         [SerializeField] private Transform shootOrigin;
 
+        private const string ProjectileResetPlaneTagName = "ProjectileResetPlane";
+        
         private bool _isLoaded;
 
         private void OnValidate()
@@ -24,9 +26,18 @@ namespace Game.Cannon
             }
 
             ResetAndLoadProjectile();
+            loadedProjectile.OnProjectileCollided += HandleOnProjectileCollided;
 
             controller.OnShootPressed += HandleOnShootPressed;
             controller.OnProjectileResetPressed += HandleOnResetPressed;
+        }
+
+        private void HandleOnProjectileCollided(Collider other)
+        {
+            if (other.CompareTag(ProjectileResetPlaneTagName))
+            {
+                ResetAndLoadProjectile();
+            }
         }
 
         private void LateUpdate()
