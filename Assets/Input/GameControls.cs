@@ -398,6 +398,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UpdateTimeScale"",
+                    ""type"": ""Button"",
+                    ""id"": ""abbe7389-1546-460b-b17d-874ec19cd30e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -409,6 +418,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df300a4b-0b6e-4f4d-b37d-96d0263d693c"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UpdateTimeScale"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -426,6 +446,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_Reset = m_Debug.FindAction("Reset", throwIfNotFound: true);
+        m_Debug_UpdateTimeScale = m_Debug.FindAction("UpdateTimeScale", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -558,11 +579,13 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Debug;
     private List<IDebugActions> m_DebugActionsCallbackInterfaces = new List<IDebugActions>();
     private readonly InputAction m_Debug_Reset;
+    private readonly InputAction m_Debug_UpdateTimeScale;
     public struct DebugActions
     {
         private @GameControls m_Wrapper;
         public DebugActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Reset => m_Wrapper.m_Debug_Reset;
+        public InputAction @UpdateTimeScale => m_Wrapper.m_Debug_UpdateTimeScale;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -575,6 +598,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Reset.started += instance.OnReset;
             @Reset.performed += instance.OnReset;
             @Reset.canceled += instance.OnReset;
+            @UpdateTimeScale.started += instance.OnUpdateTimeScale;
+            @UpdateTimeScale.performed += instance.OnUpdateTimeScale;
+            @UpdateTimeScale.canceled += instance.OnUpdateTimeScale;
         }
 
         private void UnregisterCallbacks(IDebugActions instance)
@@ -582,6 +608,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Reset.started -= instance.OnReset;
             @Reset.performed -= instance.OnReset;
             @Reset.canceled -= instance.OnReset;
+            @UpdateTimeScale.started -= instance.OnUpdateTimeScale;
+            @UpdateTimeScale.performed -= instance.OnUpdateTimeScale;
+            @UpdateTimeScale.canceled -= instance.OnUpdateTimeScale;
         }
 
         public void RemoveCallbacks(IDebugActions instance)
@@ -609,5 +638,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     public interface IDebugActions
     {
         void OnReset(InputAction.CallbackContext context);
+        void OnUpdateTimeScale(InputAction.CallbackContext context);
     }
 }
