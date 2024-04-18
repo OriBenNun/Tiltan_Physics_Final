@@ -1,3 +1,4 @@
+using Game.Enemy;
 using UnityEngine;
 
 namespace Game.Cannon
@@ -9,6 +10,7 @@ namespace Game.Cannon
         [SerializeField] private Transform shootOrigin;
 
         private const string ProjectileResetPlaneTagName = "ProjectileResetPlane";
+        private const string EnemyShipTagName = "EnemyShip";
         
         private bool _isLoaded;
 
@@ -34,6 +36,13 @@ namespace Game.Cannon
 
         private void HandleOnProjectileCollided(Collider other)
         {
+            if (other.CompareTag(EnemyShipTagName) && other.TryGetComponent<EnemyShipColliderManager>(out var enemyShipColliderManager))
+            {
+                enemyShipColliderManager.TakeDamage();
+                ResetAndLoadProjectile();
+                return;
+            }
+            
             if (other.CompareTag(ProjectileResetPlaneTagName))
             {
                 ResetAndLoadProjectile();

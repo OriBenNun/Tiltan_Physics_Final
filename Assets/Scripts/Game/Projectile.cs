@@ -6,7 +6,6 @@ namespace Game
 {
     public class Projectile : RigidBody
     {
-
         public event Action<Collider> OnProjectileCollided;
         
         private void OnTriggerEnter(Collider other)
