@@ -1,20 +1,21 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using Game.Cannon;
+using UnityEngine;
 
 namespace PhysicsSystem
 {
     public class PhysicsManager : MonoBehaviour
     {
-        [SerializeField] private float timeScale = 1f;
-
-        private GameControls _controls;
+        [SerializeField] private float initialTimeScale = 1f;
+        [SerializeField] private float afterShotTimeScale = 0.4f;
+        
+        private float _currentTimeScale;
 
         private void Awake()
         {
-            _controls = new GameControls();
-            _controls.Enable();
-
-            _controls.Debug.UpdateTimeScale.performed += HandleOnUpdateTimeScale;
+            CannonController.OnShootPressed += HandleOnProjectileShot;
+            ProjectileManager.OnProjectileReset += HandleOnProjectileReset;
+            
+            _currentTimeScale = initialTimeScale;
         }
 
         private void Start()
@@ -22,14 +23,31 @@ namespace PhysicsSystem
             UpdateTimeScale();
         }
 
-        private void HandleOnUpdateTimeScale(InputAction.CallbackContext _)
+        private void OnDestroy()
         {
+            CannonController.OnShootPressed -= HandleOnProjectileShot;
+            ProjectileManager.OnProjectileReset -= HandleOnProjectileReset;
+        }
+
+        private void HandleOnProjectileReset()
+        {
+            ChangeTimeScale(initialTimeScale);
+        }
+
+        private void HandleOnProjectileShot(float _)
+        {
+            ChangeTimeScale(afterShotTimeScale);
+        }
+
+        private void ChangeTimeScale(float timeScale)
+        {
+            _currentTimeScale = timeScale;
             UpdateTimeScale();
         }
 
         private void UpdateTimeScale()
         {
-            Time.timeScale = timeScale;
+            Time.timeScale = _currentTimeScale;
         }
     }
 }

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Test_SpringConfigSo
   m_EditorClassIdentifier: 
   springName: TEST
-  theKFactor: 50
+  theKFactor: 25
   minimumDisplacement: 30
   maximumDisplacement: 100

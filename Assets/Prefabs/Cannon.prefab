@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 8483758481629436796}
   - component: {fileID: 8819480137939827873}
   - component: {fileID: 2505171509775070760}
+  - component: {fileID: 2266427058128743450}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -306,8 +307,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5793140869137715711}
   m_Father: {fileID: 0}
@@ -324,10 +325,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38eeca0df2101d14c900a9e799b36153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootForce: 300
   controller: {fileID: 8819480137939827873}
   loadedProjectile: {fileID: 0}
   shootOrigin: {fileID: 1801523240101418449}
+  ballFollowCamera: {fileID: 0}
 --- !u!114 &8819480137939827873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,17 +341,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdbffdb133b4406ea3b7a8609e432774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3.5
-  rotationSpeed: 12.5
-  rigidBody: {fileID: 2505171509775070760}
   cannonVisualTransform: {fileID: 1299444461114452429}
+  rigidBody: {fileID: 2505171509775070760}
+  moveSpeed: 4
+  rotationSpeed: 14
   forwardDirectionCorrection: 0.2
-  maxRotationAngle: 25
-  minRotationAngle: -25
-  startingRotationAngle: 0
-  maxHorizontalPosition: 3.5
-  minHorizontalPosition: -3.5
+  startingRotationAngle: -10
   startingHorizontalPosition: 0
+  maxRotationAngle: 10
+  minRotationAngle: -25
+  maxHorizontalPosition: 35
+  minHorizontalPosition: -29
+  springAddTensionSpeed: 30
+  springConfigSo: {fileID: 11400000, guid: be1a749414683ea44986991facedabd5, type: 2}
+  spring: {fileID: 2266427058128743450}
 --- !u!114 &2505171509775070760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,4 +369,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useGravity: 0
   mass: 1
-  timeScale: 0.2
+--- !u!114 &2266427058128743450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6084303134686157346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44ec0fd0c8a84b3b992eddc1df6d9304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -29,7 +29,7 @@ namespace Game.Cannon
         [SerializeField] private SpringConfigSo springConfigSo;
         [SerializeField] private Spring spring;
 
-        public event Action<float> OnShootPressed;
+        public static event Action<float> OnShootPressed;
         public event Action OnProjectileResetPressed;
 
         public static event Action<SpringAction, float> OnSpringChanged;  
@@ -66,6 +66,8 @@ namespace Game.Cannon
             _controls.Player.Shoot.performed += HandleShootInput;
 
             _controls.Debug.Reset.performed += HandleDebugResetInput;
+
+            ProjectileManager.OnProjectileReset += HandleOnProjectileReset;
         }
 
         private void Start()
@@ -110,8 +112,15 @@ namespace Game.Cannon
             _controls.Debug.Reset.performed -= HandleDebugResetInput;
             
             _controls.Dispose();
+            
+            ProjectileManager.OnProjectileReset -= HandleOnProjectileReset;
         }
-        
+
+        private void HandleOnProjectileReset()
+        {
+            EnableInput();
+        }
+
         private void AddTensionToSpring(SpringAction currSpringAction, float speed)
         {
             var displacementToAdd = 0f;
@@ -228,8 +237,19 @@ namespace Game.Cannon
         {
             OnShootPressed?.Invoke(spring.GetForceAndReleaseTension());
             OnSpringChanged?.Invoke(_currSpringAction, spring.GetCurrentTensionNormalized());
+            CancelInput();
+        }
+
+        private void CancelInput()
+        {
+            _controls.Disable();
         }
         
+        private void EnableInput()
+        {
+            _controls.Enable();
+        }
+
         private void HandleDebugResetInput(InputAction.CallbackContext obj)
         {
             OnProjectileResetPressed?.Invoke();
