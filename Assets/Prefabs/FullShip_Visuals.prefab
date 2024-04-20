@@ -40,6 +40,7 @@ Transform:
   - {fileID: 5524780433369333167}
   - {fileID: 2125701604225589676}
   - {fileID: 2995235823295247891}
+  - {fileID: 5497448767130707778}
   m_Father: {fileID: 352257586168117549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5562483585187029428
@@ -108,7 +109,6 @@ Transform:
   m_Children:
   - {fileID: 7519360826223807266}
   - {fileID: 5913665794615951314}
-  - {fileID: 5497448767130707778}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7357612916517227313
@@ -135,7 +135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7357612916517227313}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -146,7 +146,7 @@ Transform:
   - {fileID: 3506975928503116774}
   - {fileID: 5656631452020008895}
   - {fileID: 3676340240376599996}
-  m_Father: {fileID: 352257586168117549}
+  m_Father: {fileID: 7519360826223807266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &666228367343111717
 PrefabInstance:
@@ -244,7 +244,7 @@ PrefabInstance:
     - target: {fileID: 5543651345473848479, guid: 1b7403600508b3c4c8b138020893f5e2,
         type: 3}
       propertyPath: m_Name
-      value: cannon
+      value: cannon_2
       objectReference: {fileID: 0}
     - target: {fileID: 5543651345473848479, guid: 1b7403600508b3c4c8b138020893f5e2,
         type: 3}
@@ -445,7 +445,7 @@ PrefabInstance:
     - target: {fileID: 5543651345473848479, guid: 1b7403600508b3c4c8b138020893f5e2,
         type: 3}
       propertyPath: m_Name
-      value: cannon
+      value: cannon_4
       objectReference: {fileID: 0}
     - target: {fileID: 5543651345473848479, guid: 1b7403600508b3c4c8b138020893f5e2,
         type: 3}
@@ -1046,7 +1046,7 @@ PrefabInstance:
     - target: {fileID: 8978147410838192803, guid: 53b1e6de656f261418538ad9b3cf5bee,
         type: 3}
       propertyPath: m_Name
-      value: crate
+      value: crate_2
       objectReference: {fileID: 0}
     - target: {fileID: 8978147410838192803, guid: 53b1e6de656f261418538ad9b3cf5bee,
         type: 3}
@@ -1216,7 +1216,7 @@ PrefabInstance:
     - target: {fileID: 8978147410838192803, guid: 53b1e6de656f261418538ad9b3cf5bee,
         type: 3}
       propertyPath: m_Name
-      value: crate
+      value: crate_3
       objectReference: {fileID: 0}
     - target: {fileID: 8978147410838192803, guid: 53b1e6de656f261418538ad9b3cf5bee,
         type: 3}
@@ -1301,7 +1301,7 @@ PrefabInstance:
     - target: {fileID: 8978147410838192803, guid: 53b1e6de656f261418538ad9b3cf5bee,
         type: 3}
       propertyPath: m_Name
-      value: crate
+      value: crate_1
       objectReference: {fileID: 0}
     - target: {fileID: 8978147410838192803, guid: 53b1e6de656f261418538ad9b3cf5bee,
         type: 3}
@@ -1331,7 +1331,7 @@ PrefabInstance:
     - target: {fileID: 1343399626668275397, guid: 95cf93f4e6b7609438c6f35d0d28eb29,
         type: 3}
       propertyPath: m_Name
-      value: barrel
+      value: barrel_3
       objectReference: {fileID: 0}
     - target: {fileID: 1343399626668275397, guid: 95cf93f4e6b7609438c6f35d0d28eb29,
         type: 3}
@@ -1416,7 +1416,7 @@ PrefabInstance:
     - target: {fileID: 1343399626668275397, guid: 95cf93f4e6b7609438c6f35d0d28eb29,
         type: 3}
       propertyPath: m_Name
-      value: barrel
+      value: barrel_1
       objectReference: {fileID: 0}
     - target: {fileID: 1343399626668275397, guid: 95cf93f4e6b7609438c6f35d0d28eb29,
         type: 3}
@@ -1586,7 +1586,7 @@ PrefabInstance:
     - target: {fileID: 5543651345473848479, guid: 1b7403600508b3c4c8b138020893f5e2,
         type: 3}
       propertyPath: m_Name
-      value: cannon
+      value: cannon_3
       objectReference: {fileID: 0}
     - target: {fileID: 5543651345473848479, guid: 1b7403600508b3c4c8b138020893f5e2,
         type: 3}
@@ -1617,7 +1617,7 @@ PrefabInstance:
     - target: {fileID: 1343399626668275397, guid: 95cf93f4e6b7609438c6f35d0d28eb29,
         type: 3}
       propertyPath: m_Name
-      value: barrel
+      value: barrel_2
       objectReference: {fileID: 0}
     - target: {fileID: 1343399626668275397, guid: 95cf93f4e6b7609438c6f35d0d28eb29,
         type: 3}
@@ -1961,7 +1961,7 @@ PrefabInstance:
     - target: {fileID: 5543651345473848479, guid: 1b7403600508b3c4c8b138020893f5e2,
         type: 3}
       propertyPath: m_Name
-      value: cannon
+      value: cannon_1
       objectReference: {fileID: 0}
     - target: {fileID: 5543651345473848479, guid: 1b7403600508b3c4c8b138020893f5e2,
         type: 3}

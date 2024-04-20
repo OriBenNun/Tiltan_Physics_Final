@@ -4,12 +4,10 @@ namespace PhysicsSystem
 {
     public class RigidBody : MonoBehaviour
     {
-        [SerializeField] private bool useGravity;
         [SerializeField] private float mass = 1;
-
-        private const float Gravity = 9.81f;
         
-        // private Vector3 _force;
+        private bool _useGravity;
+        private const float Gravity = 9.81f;
         private Vector3 _velocity;
 
         private void Update()
@@ -19,7 +17,7 @@ namespace PhysicsSystem
 
         private void FixedUpdate()
         {
-            if (useGravity)
+            if (_useGravity)
             {
                 ApplyGravity();
             }
@@ -35,7 +33,7 @@ namespace PhysicsSystem
             _velocity += acceleration;
         }
 
-        protected void UseGravity(bool b = true) => useGravity = b;
+        protected void UseGravity(bool b = true) => _useGravity = b;
 
         protected void ResetVelocity() => _velocity = Vector3.zero;
     }

@@ -15,8 +15,6 @@ namespace UI
 
         public void HandleStartGameButtonPressed()
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
             SceneManager.LoadSceneAsync(gameSceneIndex);
         }
         

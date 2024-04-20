@@ -26,7 +26,7 @@ namespace Game
 
         private void Start()
         {
-            StartGameUi();
+            StartGame();
         }
 
         private void OnDestroy()
@@ -44,8 +44,11 @@ namespace Game
             SceneManager.LoadSceneAsync(mainMenuSceneIndex);
         }
         
-        private void StartGameUi()
+        private void StartGame()
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            
             gameplayScoreUi.gameObject.SetActive(true);
             gameplaySpringUi.gameObject.SetActive(true);
             loseScreenUi.gameObject.SetActive(false);
@@ -59,6 +62,9 @@ namespace Game
 
         private void OpenLoseScreen()
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            
             var score = ScoreManager.GetCurrentScore();
             loseScoreText.text = $"Enemy Ships Sank: {score:N0}";
             

@@ -952,7 +952,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Enemy Ships Has Raided The Castle...
+  m_text: 'Enemy Ships Have Raided The Castle...
 
     No Survivors Left...'
   m_isRightToLeft: 0
@@ -1648,7 +1648,7 @@ MonoBehaviour:
   secondsPerDifficultyLevel: 15
   initialSpawnCooldown: 8
   difficultySpawnCooldownMultiplierPerLevel: 0.85
-  yToSpawn: -1.6
+  yToSpawn: 0
   minZToSpawn: 100
   maxZToSpawn: 200
   initialMoveSpeed: 2
@@ -3584,6 +3584,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CannonBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946256741883981358, guid: a544d4a61f1af7c4ebe9e391015596bb,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946256741883981358, guid: a544d4a61f1af7c4ebe9e391015596bb,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8946256741883981358, guid: a544d4a61f1af7c4ebe9e391015596bb,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8946256741883981358, guid: a544d4a61f1af7c4ebe9e391015596bb,
         type: 3}
