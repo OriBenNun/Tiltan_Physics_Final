@@ -29,6 +29,8 @@ namespace Game.Cannon
         [SerializeField] private SpringConfigSo springConfigSo;
         [SerializeField] private Spring spring;
 
+        [SerializeField] private ParticleSystem fireParticles;
+
         public static event Action<float> OnShootPressed;
         public event Action OnProjectileResetPressed;
 
@@ -248,6 +250,7 @@ namespace Game.Cannon
         
         private void HandleShootInput(InputAction.CallbackContext obj)
         {
+            fireParticles.Play();
             OnShootPressed?.Invoke(spring.GetForceAndReleaseTension());
             OnSpringChanged?.Invoke(_currSpringAction, spring.GetCurrentTensionNormalized());
             CancelInput();
