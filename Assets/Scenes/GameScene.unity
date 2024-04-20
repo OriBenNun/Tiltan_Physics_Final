@@ -952,7 +952,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Enemy Ships Has Raided The Castle...
+  m_text: 'Enemy Ships Have Raided The Castle...
 
     No Survivors Left...'
   m_isRightToLeft: 0
