@@ -8,14 +8,31 @@ namespace Game.Enemy
         [SerializeField] private EnemyShipColliderManager colliderManager;
 
         public static event Action OnEnemyShipSink;
+
+        private float _moveSpeed;
         private void Awake()
         {
             colliderManager.OnTookDamage += HandleOnTookDamage;
         }
 
+        private void Update()
+        {
+            MoveTowardsCastle();
+        }
+        
         private void OnDestroy()
         {
             colliderManager.OnTookDamage -= HandleOnTookDamage;
+        }
+        
+        public void Init(float moveSpeed)
+        {
+            _moveSpeed = moveSpeed;
+        }
+
+        private void MoveTowardsCastle()
+        {
+            transform.position += Vector3.back * (Time.deltaTime * _moveSpeed);
         }
 
         private void HandleOnTookDamage()

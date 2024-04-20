@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colliderManager: {fileID: 6193719946396872440}
+  moveSpeed: 10
 --- !u!1 &2756450576131334803
 GameObject:
   m_ObjectHideFlags: 0

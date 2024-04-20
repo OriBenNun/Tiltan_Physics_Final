@@ -343,11 +343,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cannonVisualTransform: {fileID: 1299444461114452429}
   rigidBody: {fileID: 2505171509775070760}
-  moveSpeed: 4
-  rotationSpeed: 14
+  moveSpeed: 6.5
+  rotationSpeed: 18
   forwardDirectionCorrection: 0.2
   startingRotationAngle: -10
-  startingHorizontalPosition: 0
+  startingHorizontalPosition: 17
   maxRotationAngle: 10
   minRotationAngle: -25
   maxHorizontalPosition: 35
