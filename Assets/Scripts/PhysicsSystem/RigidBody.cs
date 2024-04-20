@@ -4,7 +4,6 @@ namespace PhysicsSystem
 {
     public class RigidBody : MonoBehaviour
     {
-        [SerializeField] private PhysicsManager physicsManager;
         [SerializeField] private bool useGravity;
         [SerializeField] private float mass = 1;
 
@@ -13,9 +12,9 @@ namespace PhysicsSystem
         // private Vector3 _force;
         private Vector3 _velocity;
 
-        private void OnValidate()
+        private void Update()
         {
-            physicsManager ??= FindObjectOfType<PhysicsManager>();
+            transform.Translate(_velocity * Time.deltaTime);
         }
 
         private void FixedUpdate()
@@ -24,22 +23,20 @@ namespace PhysicsSystem
             {
                 ApplyGravity();
             }
-
-            transform.Translate(_velocity * physicsManager.GetFixedDeltaTimeScale());
         }
-        
-        public void AddForce(Vector3 forceToAdd)
+
+        public void SetPosition(Vector3 position) => transform.position = position;
+
+        private void ApplyGravity() => AddForce(Vector3.down * (Gravity * mass));
+
+        protected void AddForce(Vector3 forceToAdd)
         {
             var acceleration = forceToAdd / mass;
             _velocity += acceleration;
         }
 
-        public void UseGravity(bool b = true) => useGravity = b;
-        
-        public void ResetVelocity() => _velocity = Vector3.zero;
+        protected void UseGravity(bool b = true) => useGravity = b;
 
-        public void SetMass(float newMass) => mass = newMass;
-
-        private void ApplyGravity() => AddForce(Vector3.down * (Gravity * mass));
+        protected void ResetVelocity() => _velocity = Vector3.zero;
     }
 }

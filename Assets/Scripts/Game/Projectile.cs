@@ -1,40 +1,30 @@
+using System;
 using PhysicsSystem;
 using UnityEngine;
 
 namespace Game
 {
-    public class Projectile : MonoBehaviour
+    public class Projectile : RigidBody
     {
-        [SerializeField] private RigidBody rb;
-        [SerializeField] private float mass = 10f;
+        public event Action<Collider> OnProjectileCollided;
         
-        private void OnValidate()
+        private void OnTriggerEnter(Collider other)
         {
-            rb ??= GetComponent<RigidBody>();
-        }
-
-        private void Awake()
-        {
-            rb.SetMass(mass);
+            OnProjectileCollided?.Invoke(other);
         }
 
         public void Shoot(Vector3 force)
         {
-            rb.UseGravity();
-            rb.AddForce(force);
+            UseGravity();
+            AddForce(force);
         }
 
         // TODO temp for debug
         public void ResetProjectile(Vector3 position)
         {
-            transform.position = position;
-            rb.UseGravity(false);
-            rb.ResetVelocity();
-        }
-
-        public void SetPosition(Vector3 position)
-        {
-            transform.position = position;
+            SetPosition(position);
+            UseGravity(false);
+            ResetVelocity();
         }
     }
 }

@@ -1,3 +1,6 @@
+using System;
+using Cinemachine;
+using Game.Enemy;
 using UnityEngine;
 
 namespace Game.Cannon
@@ -7,7 +10,13 @@ namespace Game.Cannon
         [SerializeField] private CannonController controller;
         [SerializeField] private Projectile loadedProjectile;
         [SerializeField] private Transform shootOrigin;
+        [SerializeField] private CinemachineVirtualCamera ballFollowCamera;
 
+        private const string ProjectileResetPlaneTagName = "ProjectileResetPlane";
+        private const string EnemyShipTagName = "EnemyShip";
+
+        public static event Action OnProjectileReset;
+        
         private bool _isLoaded;
 
         private void OnValidate()
@@ -24,16 +33,40 @@ namespace Game.Cannon
             }
 
             ResetAndLoadProjectile();
+            loadedProjectile.OnProjectileCollided += HandleOnProjectileCollided;
 
-            controller.OnShootPressed += HandleOnShootPressed;
+            CannonController.OnShootPressed += HandleOnShootPressed;
             controller.OnProjectileResetPressed += HandleOnResetPressed;
         }
-
+        
         private void LateUpdate()
         {
             if (!_isLoaded) { return; }
             
             UpdateProjectileToFollowCannon();
+        }
+
+        private void OnDestroy()
+        {
+            loadedProjectile.OnProjectileCollided -= HandleOnProjectileCollided;
+
+            CannonController.OnShootPressed -= HandleOnShootPressed;
+            controller.OnProjectileResetPressed -= HandleOnResetPressed;
+        }
+
+        private void HandleOnProjectileCollided(Collider other)
+        {
+            if (other.CompareTag(EnemyShipTagName) && other.TryGetComponent<EnemyShipColliderManager>(out var enemyShipColliderManager))
+            {
+                enemyShipColliderManager.TakeDamage();
+                ResetAndLoadProjectile();
+                return;
+            }
+            
+            if (other.CompareTag(ProjectileResetPlaneTagName))
+            {
+                ResetAndLoadProjectile();
+            }
         }
 
         private void UpdateProjectileToFollowCannon()
@@ -48,6 +81,7 @@ namespace Game.Cannon
             var dir = controller.GetCannonForwardDirection();
             var finalForce = dir * shootForce;
             loadedProjectile.Shoot(finalForce);
+            ballFollowCamera.gameObject.SetActive(true);
         }
         
         private void HandleOnResetPressed()
@@ -59,6 +93,8 @@ namespace Game.Cannon
         {
             loadedProjectile.ResetProjectile(shootOrigin.position);
             _isLoaded = true;
+            ballFollowCamera.gameObject.SetActive(false);
+            OnProjectileReset?.Invoke();
         }
     }
 }

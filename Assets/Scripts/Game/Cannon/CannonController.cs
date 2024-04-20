@@ -29,7 +29,7 @@ namespace Game.Cannon
         [SerializeField] private SpringConfigSo springConfigSo;
         [SerializeField] private Spring spring;
 
-        public event Action<float> OnShootPressed;
+        public static event Action<float> OnShootPressed;
         public event Action OnProjectileResetPressed;
 
         public static event Action<SpringAction, float> OnSpringChanged;  
@@ -42,6 +42,10 @@ namespace Game.Cannon
         private MovementDirection _currMovementDirection = MovementDirection.None;
         private SpringAction _currSpringAction = SpringAction.None;
 
+
+        private static float _staticMaxHorizontalPosition;
+        private static float _staticMinHorizontalPosition;
+
         private void OnValidate()
         {
             rigidBody ??= GetComponent<RigidBody>();
@@ -50,6 +54,9 @@ namespace Game.Cannon
 
         private void Awake()
         {
+            _staticMaxHorizontalPosition = maxHorizontalPosition;
+            _staticMinHorizontalPosition = minHorizontalPosition;
+            
             _controls = new GameControls();
             
             _controls.Enable();
@@ -66,6 +73,10 @@ namespace Game.Cannon
             _controls.Player.Shoot.performed += HandleShootInput;
 
             _controls.Debug.Reset.performed += HandleDebugResetInput;
+
+            ProjectileManager.OnProjectileReset += HandleOnProjectileReset;
+
+            GameManager.OnGameOver += HandleOnGameOver;
         }
 
         private void Start()
@@ -110,8 +121,19 @@ namespace Game.Cannon
             _controls.Debug.Reset.performed -= HandleDebugResetInput;
             
             _controls.Dispose();
+            
+            ProjectileManager.OnProjectileReset -= HandleOnProjectileReset;
+            GameManager.OnGameOver -= HandleOnGameOver;
         }
-        
+
+        public static float GetMaxHorizontalPosition() => _staticMaxHorizontalPosition;
+        public static float GetMinHorizontalPosition() => _staticMinHorizontalPosition;
+
+        private void HandleOnProjectileReset()
+        {
+            EnableInput();
+        }
+
         private void AddTensionToSpring(SpringAction currSpringAction, float speed)
         {
             var displacementToAdd = 0f;
@@ -228,8 +250,19 @@ namespace Game.Cannon
         {
             OnShootPressed?.Invoke(spring.GetForceAndReleaseTension());
             OnSpringChanged?.Invoke(_currSpringAction, spring.GetCurrentTensionNormalized());
+            CancelInput();
+        }
+
+        private void CancelInput()
+        {
+            _controls.Disable();
         }
         
+        private void EnableInput()
+        {
+            _controls.Enable();
+        }
+
         private void HandleDebugResetInput(InputAction.CallbackContext obj)
         {
             OnProjectileResetPressed?.Invoke();
@@ -239,6 +272,11 @@ namespace Game.Cannon
         {
             _currSpringAction = action;
             OnSpringChanged?.Invoke(action, spring.GetCurrentTensionNormalized());
+        }
+        
+        private void HandleOnGameOver()
+        {
+            _controls.Disable();
         }
         
         private enum RotationDirection
