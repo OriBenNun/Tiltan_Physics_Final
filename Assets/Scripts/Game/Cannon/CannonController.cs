@@ -42,6 +42,10 @@ namespace Game.Cannon
         private MovementDirection _currMovementDirection = MovementDirection.None;
         private SpringAction _currSpringAction = SpringAction.None;
 
+
+        private static float _staticMaxHorizontalPosition;
+        private static float _staticMinHorizontalPosition;
+
         private void OnValidate()
         {
             rigidBody ??= GetComponent<RigidBody>();
@@ -50,6 +54,9 @@ namespace Game.Cannon
 
         private void Awake()
         {
+            _staticMaxHorizontalPosition = maxHorizontalPosition;
+            _staticMinHorizontalPosition = minHorizontalPosition;
+            
             _controls = new GameControls();
             
             _controls.Enable();
@@ -115,6 +122,9 @@ namespace Game.Cannon
             
             ProjectileManager.OnProjectileReset -= HandleOnProjectileReset;
         }
+
+        public static float GetMaxHorizontalPosition() => _staticMaxHorizontalPosition;
+        public static float GetMinHorizontalPosition() => _staticMinHorizontalPosition;
 
         private void HandleOnProjectileReset()
         {
