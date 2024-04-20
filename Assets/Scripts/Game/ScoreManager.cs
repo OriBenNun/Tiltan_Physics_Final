@@ -8,9 +8,10 @@ namespace Game
     {
         [SerializeField] private TMP_Text shipsSankText;
         
-        private int _currentScore;
+        private static int _currentScore;
         private void Awake()
         {
+            _currentScore = 0;
             EnemyShip.OnEnemyShipSink += HandleOnEnemyShipSink;
         }
 
@@ -19,6 +20,7 @@ namespace Game
             UpdateText();
         }
 
+        public static int GetCurrentScore() => _currentScore;
 
         private void OnDestroy()
         {

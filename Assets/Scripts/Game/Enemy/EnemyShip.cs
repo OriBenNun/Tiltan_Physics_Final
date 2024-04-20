@@ -8,11 +8,14 @@ namespace Game.Enemy
         [SerializeField] private EnemyShipColliderManager colliderManager;
 
         public static event Action OnEnemyShipSink;
+        public static event Action OnEnemyShipReachedCastle;
 
         private float _moveSpeed;
+
         private void Awake()
         {
             colliderManager.OnTookDamage += HandleOnTookDamage;
+            colliderManager.OnCollidedWithCastle += HandleOnCollidedWithCastle;
         }
 
         private void Update()
@@ -23,8 +26,9 @@ namespace Game.Enemy
         private void OnDestroy()
         {
             colliderManager.OnTookDamage -= HandleOnTookDamage;
+            colliderManager.OnCollidedWithCastle -= HandleOnCollidedWithCastle;
         }
-        
+
         public void Init(float moveSpeed)
         {
             _moveSpeed = moveSpeed;
@@ -46,6 +50,11 @@ namespace Game.Enemy
             
             OnEnemyShipSink?.Invoke();
             gameObject.SetActive(false);
+        }
+        
+        private void HandleOnCollidedWithCastle()
+        {
+            OnEnemyShipReachedCastle?.Invoke();
         }
     }
 }

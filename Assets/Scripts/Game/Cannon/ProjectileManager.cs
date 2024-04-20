@@ -38,6 +38,21 @@ namespace Game.Cannon
             CannonController.OnShootPressed += HandleOnShootPressed;
             controller.OnProjectileResetPressed += HandleOnResetPressed;
         }
+        
+        private void LateUpdate()
+        {
+            if (!_isLoaded) { return; }
+            
+            UpdateProjectileToFollowCannon();
+        }
+
+        private void OnDestroy()
+        {
+            loadedProjectile.OnProjectileCollided -= HandleOnProjectileCollided;
+
+            CannonController.OnShootPressed -= HandleOnShootPressed;
+            controller.OnProjectileResetPressed -= HandleOnResetPressed;
+        }
 
         private void HandleOnProjectileCollided(Collider other)
         {
@@ -52,13 +67,6 @@ namespace Game.Cannon
             {
                 ResetAndLoadProjectile();
             }
-        }
-
-        private void LateUpdate()
-        {
-            if (!_isLoaded) { return; }
-            
-            UpdateProjectileToFollowCannon();
         }
 
         private void UpdateProjectileToFollowCannon()

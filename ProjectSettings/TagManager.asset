@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ProjectileResetPlane
   - EnemyShip
+  - Castle
   layers:
   - Default
   - TransparentFX

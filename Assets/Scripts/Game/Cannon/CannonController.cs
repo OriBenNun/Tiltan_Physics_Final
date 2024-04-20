@@ -75,6 +75,8 @@ namespace Game.Cannon
             _controls.Debug.Reset.performed += HandleDebugResetInput;
 
             ProjectileManager.OnProjectileReset += HandleOnProjectileReset;
+
+            GameManager.OnGameOver += HandleOnGameOver;
         }
 
         private void Start()
@@ -121,6 +123,7 @@ namespace Game.Cannon
             _controls.Dispose();
             
             ProjectileManager.OnProjectileReset -= HandleOnProjectileReset;
+            GameManager.OnGameOver -= HandleOnGameOver;
         }
 
         public static float GetMaxHorizontalPosition() => _staticMaxHorizontalPosition;
@@ -269,6 +272,11 @@ namespace Game.Cannon
         {
             _currSpringAction = action;
             OnSpringChanged?.Invoke(action, spring.GetCurrentTensionNormalized());
+        }
+        
+        private void HandleOnGameOver()
+        {
+            _controls.Disable();
         }
         
         private enum RotationDirection
